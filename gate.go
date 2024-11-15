@@ -23,8 +23,8 @@ type Gate struct {
 	unset chan struct{}
 }
 
-// NewGate returns a new, unlocked gate with the given condition state.
-func NewGate(set bool) Gate {
+// New returns a new, unlocked gate with the given condition state.
+func New(set bool) Gate {
 	g := Gate{
 		set:   make(chan struct{}, 1),
 		unset: make(chan struct{}, 1),

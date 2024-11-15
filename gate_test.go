@@ -13,7 +13,7 @@ import (
 )
 
 func TestGateLockAndUnlock(t *testing.T) {
-	g := gate.NewGate(false)
+	g := gate.New(false)
 	if set := g.Lock(); set {
 		t.Errorf("g.Lock of never-locked gate: true, want false")
 	}
@@ -41,7 +41,7 @@ func TestGateLockAndUnlock(t *testing.T) {
 }
 
 func TestGateWaitAndLock(t *testing.T) {
-	g := gate.NewGate(false)
+	g := gate.New(false)
 	// WaitAndLock is canceled.
 	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Millisecond)
 	defer cancel()
@@ -70,7 +70,7 @@ func TestGateWaitAndLock(t *testing.T) {
 }
 
 func TestGateLockIfSet(t *testing.T) {
-	g := gate.NewGate(false)
+	g := gate.New(false)
 	if locked := g.LockIfSet(); locked {
 		t.Fatalf("g.LockIfSet of unset gate = %v, want false", locked)
 	}
