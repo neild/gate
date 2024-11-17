@@ -3,10 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // Package gate contains an alternative condition variable.
-package gate
-
-import "context"
-
+//
 // A gate is a monitor (mutex + condition variable) with one bit of state.
 //
 // A gate exists in one of three states:
@@ -16,6 +13,18 @@ import "context"
 //
 // Lock operations may be unconditional, or wait for the condition to be set.
 // Unlock operations record the new state of the condition.
+//
+// Gates have several advantages over sync.Cond:
+//   - Wait operations can be easily bounded by a context.Context lifetime.
+//   - A Wait operation only returns successfully when the gate condition is set.
+//     For example, if a gate's condition is set when a queue is non-empty,
+//     then a successful return from Wait guarantees that an item is in the queue.
+//   - No need to call Signal/Broadcast to notify waiters of a change in the condition.
+package gate
+
+import "context"
+
+// A gate is a monitor (mutex + condition variable) with one bit of state.
 type Gate struct {
 	// When unlocked, exactly one of set or unset contains a value.
 	// When locked, neither chan contains a value.
